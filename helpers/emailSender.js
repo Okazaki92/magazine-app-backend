@@ -16,19 +16,17 @@ require("dotenv").config();
 
 // console.log("Authorize this app by visiting this URL:", authUrl);
 
-const transporter = nodemailer.createTransport(
-  smtpTransport({
-    service: "gmail",
-    auth: {
-      type: "OAuth2",
-      user: process.env.GOOGLE_USER,
-      pass: process.env.GOOGLE_PASSWORD,
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-      refreshToken: process.env.GOOGLE_REFRESH,
-    },
-  })
-);
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    type: "OAuth2",
+    user: process.env.GOOGLE_USER,
+    pass: process.env.GOOGLE_PASSWORD,
+    clientId: process.env.GOOGLE_ID,
+    clientSecret: process.env.GOOGLE_SECRET,
+    refreshToken: process.env.GOOGLE_REFRESH,
+  },
+});
 
 const sendMail = async (userEmail, verificationToken) => {
   const emailOptions = {
