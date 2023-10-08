@@ -1,3 +1,4 @@
+const { nanoid } = require("nanoid");
 const { authentication, random } = require("../config/authenticationCrypto");
 const verificationEmail = require("../helpers/emailSender");
 const validation = require("../helpers/validation");
@@ -29,7 +30,7 @@ const register = async (req, res, next) => {
         salt,
         password: hashPassword,
       },
-      verificationToken: random(),
+      verificationToken: nanoid(),
       token: null,
     });
     verificationEmail(newUser.email, newUser.verificationToken);
