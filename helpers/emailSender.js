@@ -24,5 +24,6 @@ const sendMail = async (userEmail, verificationToken) => {
     `,
   };
   transport.sendMail(emailOptions).catch((err) => console.log(err));
+  console.log("mail sent");
 };
 module.exports = sendMail;
