@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 
 const transport = nodemailer.createTransport({
-  service: "gmail",
+  service: "Gmail",
   auth: {
     user: process.env.GOOGLE_USER, // Twoje konto Gmail
     pass: process.env.GOOGLE_PASSWORD, // Twoje hasło do konta Gmail
@@ -23,7 +23,12 @@ const sendMail = async (userEmail, verificationToken) => {
       </div>
     `,
   };
-  transport.sendMail(emailOptions).catch((err) => console.log(err));
-  console.log("mail sent");
+  transport.sendMail(emailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email:", error);
+    } else {
+      console.log(`Verification Email to ${userEmail} sent: `, info.response);
+    }
+  });
 };
 module.exports = sendMail;
