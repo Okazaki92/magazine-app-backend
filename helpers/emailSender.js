@@ -17,7 +17,7 @@ const verificationEmail = async (userEmail, verificationToken) => {
       <div style="text-align: center;">
         <h1>Codeholics Wallet App</h1>
         <p>Please click the link below to verify your email:</p>
-        <a href="https://magazine-app.vercel.app/users/verify/${verificationToken}">
+        <a href="https://magazine-app-backed.vercel.app/users/verify/${verificationToken}">
           Verify Email
         </a>
       </div>
