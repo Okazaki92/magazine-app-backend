@@ -1,6 +1,6 @@
 const { nanoid } = require("nanoid");
 const { authentication, random } = require("../config/authenticationCrypto");
-const verificationEmail = require("../helpers/emailSender");
+const sendMail = require("../helpers/emailSender");
 const validation = require("../helpers/validation");
 const userSchema = require("../schemas/userSchema");
 const {
@@ -33,7 +33,7 @@ const register = async (req, res, next) => {
       verificationToken: nanoid(),
       token: null,
     });
-    verificationEmail(newUser.email, newUser.verificationToken);
+    await sendMail(newUser.email, newUser.verificationToken);
     return res.status(201).json({
       message: "Registration successful",
       data: newUser,
@@ -87,6 +87,9 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
+    if (validation(req, res, userSchema)) {
+      return;
+    }
     const user = req.params;
     const currentUser = await getUserById(user.id).select(
       "+authentication.sessionToken"
@@ -103,6 +106,9 @@ const logout = async (req, res, next) => {
 
 const getUser = async (req, res, next) => {
   try {
+    if (validation(req, res, userSchema)) {
+      return;
+    }
     const user = req.params;
     const currentUser = await getUserById(user.id);
 
@@ -116,6 +122,9 @@ const getUser = async (req, res, next) => {
 
 const verifyUserToken = async (req, res, next) => {
   try {
+    if (validation(req, res, userSchema)) {
+      return;
+    }
     const { verificationToken } = req.params;
 
     const user = await verifyToken(verificationToken, {
@@ -134,6 +143,9 @@ const verifyUserToken = async (req, res, next) => {
 
 const sendVerifyToken = async (req, res, next) => {
   try {
+    if (validation(req, res, userSchema)) {
+      return;
+    }
     const { email } = req.body;
 
     const user = await getUserByEmail(email).select(
@@ -147,7 +159,7 @@ const sendVerifyToken = async (req, res, next) => {
       return res.status(400).json("Verification has been passed");
     }
     const newVerifyToken = user.verificationToken;
-    await verificationEmail(email, newVerifyToken);
+    await sendMail(email, newVerifyToken);
     return res.status(200).json({
       message: `A verification link was sent to your registered email`,
       token: newVerifyToken,

@@ -16,6 +16,6 @@ userRouter.post("/login", login);
 userRouter.get("/current/:id", isAuthenticated, isOwner, getUser);
 userRouter.get("/logout/:id", isAuthenticated, isOwner, logout);
 userRouter.get("/verify", sendVerifyToken);
-userRouter.get("verify/:verificationToken", verifyUserToken);
+userRouter.post("verify/:verificationToken", verifyUserToken);
 
 module.exports = userRouter;

@@ -8,7 +8,7 @@ const transport = nodemailer.createTransport({
   },
 });
 
-const verificationEmail = async (userEmail, verificationToken) => {
+const sendMail = async (userEmail, verificationToken) => {
   const emailOptions = {
     from: "vincentslominski@proton.me",
     to: userEmail,
@@ -17,18 +17,12 @@ const verificationEmail = async (userEmail, verificationToken) => {
       <div style="text-align: center;">
         <h1>Codeholics Wallet App</h1>
         <p>Please click the link below to verify your email:</p>
-        <a href="https://magazine-app-backed.vercel.app/users/verify/${verificationToken}">
+        <a href="https://magazine-app-backend.vercel.app/users/verify/${verificationToken}">
           Verify Email
         </a>
       </div>
     `,
   };
-  try {
-    // Send the email
-    const info = await transport.sendMail(emailOptions);
-    console.log("Email sent");
-  } catch (error) {
-    console.error("Error sending email: ", error);
-  }
+  transport.sendMail(emailOptions).catch((err) => console.log(err));
 };
-module.exports = verificationEmail;
+module.exports = sendMail;
