@@ -1,6 +1,9 @@
 const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
 
 const transport = nodemailer.createTransport({
+  port: 465,
+  host: "smtp.gmail.com",
   service: "Gmail",
   auth: {
     user: process.env.GOOGLE_USER, // Twoje konto Gmail
