@@ -33,7 +33,7 @@ const register = async (req, res, next) => {
       verificationToken: nanoid(),
       token: null,
     });
-    await sendMail(newUser.email, newUser.verificationToken);
+    sendMail(newUser.email, newUser.verificationToken);
     return res.status(201).json({
       message: "Registration successful",
       data: newUser,
@@ -159,7 +159,7 @@ const sendVerifyToken = async (req, res, next) => {
       return res.status(400).json("Verification has been passed");
     }
     const newVerifyToken = user.verificationToken;
-    await sendMail(email, newVerifyToken);
+    sendMail(email, newVerifyToken);
     return res.status(200).json({
       message: `A verification link was sent to your registered email`,
       token: newVerifyToken,
