@@ -18,3 +18,5 @@ app.use(express.json());
 app.get("/", (req, res) => res.send("Welcome"));
 
 app.listen(3000, () => console.log("Server run at http://localhost:3000"));
+
+module.exports = app;
