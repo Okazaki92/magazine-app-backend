@@ -1,14 +1,34 @@
 const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
+const smtpTransport = require("nodemailer-smtp-transport");
+require("dotenv").config();
 
-const transport = nodemailer.createTransport({
-  port: 465,
-  host: "smtp.gmail.com",
-  service: "Gmail",
-  auth: {
-    user: process.env.GOOGLE_USER, // Twoje konto Gmail
-    pass: process.env.GOOGLE_PASSWORD, // Twoje hasło do konta Gmail
-  },
-});
+// const oAuth2Client = new google.auth.OAuth2(
+//   process.env.GOOGLE_ID,
+//   process.env.GOOGLE_SECRET,
+//   "http://localhost:3000/callback"
+// );
+
+// const authUrl = oAuth2Client.generateAuthUrl({
+//   access_type: "offline",
+//   scope: ["https://mail.google.com/"],
+// });
+
+// console.log("Authorize this app by visiting this URL:", authUrl);
+
+const transporter = nodemailer.createTransport(
+  smtpTransport({
+    service: "gmail",
+    auth: {
+      type: "OAuth2",
+      user: process.env.GOOGLE_USER,
+      pass: process.env.GOOGLE_PASSWORD,
+      clientId: process.env.GOOGLE_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
+      refreshToken: process.env.GOOGLE_REFRESH,
+    },
+  })
+);
 
 const sendMail = async (userEmail, verificationToken) => {
   const emailOptions = {
@@ -25,7 +45,7 @@ const sendMail = async (userEmail, verificationToken) => {
       </div>
     `,
   };
-  transport.sendMail(emailOptions, (error, info) => {
+  transporter.sendMail(emailOptions, (error, info) => {
     if (error) {
       console.error("Error sending email:", error);
     } else {
