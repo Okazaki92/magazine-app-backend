@@ -15,6 +15,6 @@ db.once("open", () => console.log("Connected to Mongo"));
 
 app.use(express.json());
 
-app.listen(3000, () => console.log("Server run at http://localhost:3000"));
+app.get("/", (req, res) => res.send("Welcome"));
 
-app.get("/", (req, res) => res.json({ message: "Welcome" }));
+app.listen(3000, () => console.log("Server run at http://localhost:3000"));
