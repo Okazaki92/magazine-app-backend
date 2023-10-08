@@ -1,5 +1,4 @@
 const nodemailer = require("nodemailer");
-const { google } = require("googleapis");
 
 const transport = nodemailer.createTransport({
   port: 465,
