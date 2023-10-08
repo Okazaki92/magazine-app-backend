@@ -122,9 +122,6 @@ const getUser = async (req, res, next) => {
 
 const verifyUserToken = async (req, res, next) => {
   try {
-    if (validation(req, res, userSchema)) {
-      return;
-    }
     const { verificationToken } = req.params;
 
     const user = await verifyToken(verificationToken, {
@@ -143,9 +140,6 @@ const verifyUserToken = async (req, res, next) => {
 
 const sendVerifyToken = async (req, res, next) => {
   try {
-    if (validation(req, res, userSchema)) {
-      return;
-    }
     const { email } = req.body;
 
     const user = await getUserByEmail(email).select(
