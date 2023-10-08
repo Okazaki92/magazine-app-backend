@@ -25,6 +25,7 @@ const transporter = nodemailer.createTransport({
     clientId: process.env.GOOGLE_ID,
     clientSecret: process.env.GOOGLE_SECRET,
     refreshToken: process.env.GOOGLE_REFRESH,
+    scope: "https://mail.google.com/",
   },
 });
 
