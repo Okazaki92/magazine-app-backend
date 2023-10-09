@@ -58,8 +58,8 @@ const sendMail = async (userEmail, verificationToken) => {
       </div>
     `,
   };
-  let transporter = await createTransporter();
-  transporter.sendMail(emailOptions, (error, info) => {
+  const transport = await createTransporter();
+  transport.sendMail(emailOptions, (error, info) => {
     if (error) {
       console.error("Error sending email:", error);
     } else {
