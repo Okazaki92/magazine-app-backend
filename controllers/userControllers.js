@@ -128,6 +128,7 @@ const verifyUserToken = async (req, res, next) => {
       verify: true,
       verificationToken: null,
     });
+    console.log(user);
     if (!user) {
       return res.status(404).json("User not found");
     }
