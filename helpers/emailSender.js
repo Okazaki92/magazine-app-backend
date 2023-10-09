@@ -1,33 +1,47 @@
 const nodemailer = require("nodemailer");
-const { google } = require("googleapis");
-const smtpTransport = require("nodemailer-smtp-transport");
 require("dotenv").config();
 
-// const oAuth2Client = new google.auth.OAuth2(
-//   process.env.GOOGLE_ID,
-//   process.env.GOOGLE_SECRET,
-//   "http://localhost:3000/callback"
-// );
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;
 
-// const authUrl = oAuth2Client.generateAuthUrl({
-//   access_type: "offline",
-//   scope: ["https://mail.google.com/"],
-// });
+const createTransporter = async () => {
+  try {
+    const oauth2Client = new OAuth2(
+      process.env.GOOGLE_ID,
+      process.env.GOOGLE_SECRET,
+      "https://developers.google.com/oauthplayground"
+    );
 
-// console.log("Authorize this app by visiting this URL:", authUrl);
+    oauth2Client.setCredentials({
+      refresh_token: process.env.GOOGLE_REFRESH,
+    });
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    type: "OAuth2",
-    user: process.env.GOOGLE_USER,
-    pass: process.env.GOOGLE_PASSWORD,
-    clientId: process.env.GOOGLE_ID,
-    clientSecret: process.env.GOOGLE_SECRET,
-    refreshToken: process.env.GOOGLE_REFRESH,
-    scope: "https://mail.google.com/",
-  },
-});
+    const accessToken = await new Promise((resolve, reject) => {
+      oauth2Client.getAccessToken((err, token) => {
+        if (err) {
+          console.log("*ERR: ", err);
+          reject();
+        }
+        resolve(token);
+      });
+    });
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        type: "OAuth2",
+        user: process.env.GOOGLE_USER,
+        accessToken,
+        clientId: process.env.GOOGLE_ID,
+        clientSecret: process.env.GOOGLE_SECRET,
+        refreshToken: process.env.GOOGLE_REFRESH,
+      },
+    });
+    return transporter;
+  } catch (err) {
+    return err;
+  }
+};
 
 const sendMail = async (userEmail, verificationToken) => {
   const emailOptions = {
