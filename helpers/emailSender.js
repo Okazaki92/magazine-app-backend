@@ -59,7 +59,7 @@ const transport = nodemailer.createTransport({
   },
 });
 
-const sendMail = async (userEmail, verificationToken) => {
+const verificationEmail = async (userEmail, verificationToken) => {
   const emailOptions = {
     from: "vincentslominski@proton.me",
     to: userEmail,
@@ -85,4 +85,4 @@ const sendMail = async (userEmail, verificationToken) => {
     }
   });
 };
-module.exports = sendMail;
+module.exports = verificationEmail;

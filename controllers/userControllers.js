@@ -1,6 +1,5 @@
 const { nanoid } = require("nanoid");
 const { authentication, random } = require("../config/authenticationCrypto");
-const sendMail = require("../helpers/emailSender");
 const validation = require("../helpers/validation");
 const userSchema = require("../schemas/userSchema");
 const {
@@ -9,6 +8,7 @@ const {
   verifyToken,
   createUser,
 } = require("../services/userServices");
+const verificationEmail = require("../helpers/emailSender");
 
 const register = async (req, res, next) => {
   try {
@@ -33,7 +33,7 @@ const register = async (req, res, next) => {
       verificationToken: nanoid(),
       token: null,
     });
-    sendMail(newUser.email, newUser.verificationToken);
+    await verificationEmail(newUser.email, newUser.verificationToken);
     return res.status(201).json({
       message: "Registration successful",
       data: newUser,
@@ -153,7 +153,7 @@ const sendVerifyToken = async (req, res, next) => {
       return res.status(400).json("Verification has been passed");
     }
     const newVerifyToken = user.verificationToken;
-    sendMail(email, newVerifyToken);
+    await verificationEmail(email, newVerifyToken);
     return res.status(200).json({
       message: `A verification link was sent to your registered email`,
       token: newVerifyToken,
