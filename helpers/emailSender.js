@@ -63,7 +63,10 @@ const sendMail = async (userEmail, verificationToken) => {
     if (error) {
       console.error("Error sending email:", error);
     } else {
-      console.log(`Verification Email to ${userEmail} sent: `, info.response);
+      return console.log(
+        `Verification Email to ${userEmail} sent: `,
+        info.response
+      );
     }
   });
 };
