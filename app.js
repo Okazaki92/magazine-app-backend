@@ -9,6 +9,13 @@ app.use(cors());
 
 app.use("/users", userRouter);
 app.get("/", (req, res) => res.send("Welcome"));
+app.get("/auth/callback", (req, res) => {
+  // Tutaj będziesz obsługiwać odpowiedź od Google
+  const code = req.query.code; // Pobierz kod autoryzacyjny
+  console.log(code);
+  res.status(200).json({ code: code });
+  // ...
+});
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });
