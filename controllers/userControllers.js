@@ -87,9 +87,9 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
-    if (validation(req, res, userSchema)) {
-      return;
-    }
+    // if (validation(req, res, userSchema)) {
+    //   return;
+    // }
     const user = req.params;
     const currentUser = await getUserById(user.id).select(
       "+authentication.sessionToken"
@@ -110,7 +110,7 @@ const getUser = async (req, res, next) => {
       return;
     }
     const user = req.params;
-    const currentUser = await getUserById(user.id);
+    const currentUser = await getUserById(user._id);
 
     return res.status(200).json({
       data: currentUser,
