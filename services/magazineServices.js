@@ -12,13 +12,13 @@ const createMagazine = async (userId, body) => {
   return MagazineModel.create({ owner: userId, ...body });
 };
 
-const deleteMagazine = async (id, userId) => {
-  return MagazineModel.findOneAndDelete({ _id: id, owner: userId });
+const deleteMagazine = async (id) => {
+  return MagazineModel.findOneAndDelete({ _id: id });
 };
 
-const updateMagazine = async (id, userId, body) => {
+const updateMagazine = async (id, body) => {
   return MagazineModel.findOneAndUpdate(
-    { _id: id, owner: userId },
+    { _id: id },
     { ...body },
     { new: true }
   );

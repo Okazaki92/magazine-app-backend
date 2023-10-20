@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const magazineRouter = require("./routes/magazineRoutes");
+const productRouter = require("./routes/productRoutes");
 
 app.use(express.json());
 app.use(express.static("public"));
@@ -12,6 +13,7 @@ app.use(cookieParser());
 
 app.use("/users", userRouter);
 app.use("/magazines", magazineRouter);
+app.use("/magazines", productRouter);
 app.get("/", (req, res) => res.send("Welcome"));
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
