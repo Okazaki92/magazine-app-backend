@@ -33,8 +33,7 @@ const register = async (req, res, next) => {
       verificationToken: nanoid(),
       token: null,
     });
-    // await verificationEmail(newUser.email, newUser.verificationToken);
-    verificationEmail(newUser.email, newUser.verificationToken);
+    await verificationEmail(newUser.email, newUser.verificationToken);
     return res.status(201).json({
       message: "Registration successful",
       data: newUser,
