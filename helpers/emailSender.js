@@ -76,7 +76,7 @@ const verificationEmail = async (userEmail, verificationToken) => {
   };
   transport.sendMail(emailOptions, (error, info) => {
     if (error) {
-      console.error("Error sending email:", error);
+      return console.error("Error sending email:", error);
     } else {
       return console.log(
         `Verification Email to ${userEmail} sent: `,
