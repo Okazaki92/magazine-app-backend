@@ -75,7 +75,7 @@ const login = async (req, res, next) => {
     res.cookie("MAGAZINE-AUTH", user.authentication.sessionToken, {
       httpOnly: true,
       secure: true,
-      SameSite: "None",
+      sameSite: "None",
     });
     return res.status(200).json({
       message: "Welcome",
