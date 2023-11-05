@@ -8,9 +8,7 @@ const productRouter = require("./routes/productRoutes");
 
 app.use(express.json());
 app.use(express.static("public"));
-app.use(
-  cors({ origin: "https://magazine-app.vercel.app/", credentials: true })
-);
+app.use(cors({ credentials: true }));
 app.use(cookieParser());
 
 app.use("/users", userRouter);
