@@ -73,7 +73,6 @@ const login = async (req, res, next) => {
     await user.save();
 
     res.cookie("MAGAZINE-AUTH", user.authentication.sessionToken, {
-      httpOnly: true,
       secure: true,
       sameSite: "None",
     });
